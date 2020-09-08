@@ -10,6 +10,10 @@ The metabolic heterogeneity, and metabolic interplay between cells and their mic
   <img width="60%" src="https://github.com/changwn/scFEA/blob/master/doc/Figure%201.png">
 </p>
 
+## The manuscript and supplementary methods
+
+Our paper and supplementary methods is available at [here](https://github.com/changwn/scFEA/tree/master/manuscript)!
+
 ## Supplementary Figures and Tables
 
 [donwload supplementary files](https://github.com/changwn/scFEA/tree/master/supplementary%20data)
