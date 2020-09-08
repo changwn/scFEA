@@ -1,4 +1,4 @@
-## scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data scFEA
+## scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data
 
 ## Abstract
 
