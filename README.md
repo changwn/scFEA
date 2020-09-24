@@ -57,12 +57,31 @@ conda install pytorch torchvision -c pytorch
 
 You can see the input arguments for scFEA by help option:
 ```
-usage: scFEA.py
+python src/scFEA.py --help
+usage: scFEA.py [-h] [--data_dir <data_directory>]                
+                [--res_dir <data_directory>] [--test_file TEST_FILE]                
+                [--moduleGene_file MODULEGENE_FILE]                
+                [--stoichiometry_matrix STOICHIOMETRY_MATRIX]
+                
+scFEA: A graph neural network model to estimate cell-wise metabolic usingsingle cell RNA-seq data
+
+optional arguments:  
+    -h, --help            show this help message and exit  
+    --data_dir <data_directory>                        
+                          The data directory for input data  
+    --res_dir <data_directory>                        
+                          The data directory for result [output]  
+    --test_file TEST_FILE                        
+                          The test SC file [input]  
+    --moduleGene_file MODULEGENE_FILE                        
+                          The table contains genes for each module.  
+    --stoichiometry_matrix STOICHIOMETRY_MATRIX                        
+                          The table descript relationship between compounds and modules.
 ```
 
 ### Predict flux for single cell
 ```
-python src/scFEA.py --data_dir data --test_file test_snps --res_dir output
+python src/scFEA.py --data_dir data --res_dir output --test_file Melissa_metabolic_c88_m100.csv
 ```
 
 
