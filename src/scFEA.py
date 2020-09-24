@@ -284,7 +284,7 @@ def parse_arguments(parser):
     parser.add_argument('--moduleGene_file', type=str, default='module_gene_m14.csv', 
 						help='The table contains genes for each module.')
     parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m14.csv', 
-						help='The table descript relationship between compounds and modules.')
+						help='The table describes relationship between compounds and modules.')
 
 
     args = parser.parse_args()
