@@ -214,10 +214,8 @@ def main(args):
 #        print("m...", out_m_batch[0,:])
 #        print("c*********", out_c_batch[0,:])
 #        print('epoch: %02d, loss1: %.8f, loss2_lambda_free: %.8f, loss: %.8f' % (epoch+1, loss1, loss2/lamb_scale, loss))
-        sys.stdout.write("[%-60s] %d%%" % ('='*(60*(epoch+1)/EPOCH), (100*(epoch+1)/EPOCH)))
-        sys.stdout.flush()
-        sys.stdout.write(", epoch %d"% (epoch+1))
-        sys.stdout.flush()
+        if(epoch % 5 == 0):
+            print('epoch:', epoch)
         loss_v.append(loss)
         loss_v1.append(loss1)
         loss_v2.append(loss2/lamb_scale)
@@ -270,6 +268,8 @@ def main(args):
     setF.columns = moduleGene.index
     setF.index = geneExpr.index.tolist()
     setF.to_csv(fileName)
+    
+    print("Done. Check result in the desired output folder.")
     
     return
 	
