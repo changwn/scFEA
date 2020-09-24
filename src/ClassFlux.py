@@ -26,6 +26,7 @@ class FLUX(nn.Module):
                                                       nn.Tanhshrink(),
                                                       nn.Linear(8, f_out),
                                                       nn.Tanhshrink()
+#                                                      nn.SELU()
                                                       )
                                         for i in range(n_modules)])
         
@@ -47,6 +48,7 @@ class FLUX(nn.Module):
     def scale_m(self, out_m_batch, scale_vector, cell_id_batch):
         
         out_m_batch_new = out_m_batch
+        out_m_batch_new = out_m_batch_new.abs() # force to positive
         batchSize = out_m_batch.shape[0]
         if batchSize == 1:
             out_m_batch_new = out_m_batch_new * scale_vector[cell_id_batch]
