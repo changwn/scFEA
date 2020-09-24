@@ -32,6 +32,26 @@ Supplementary Figures:
 
 - Figure S1. The impact of each gene to the metabolic module 1-14 (glycolysis and TCA cycle modules) in the Pa03c cell line data.
 
+## Requirements and Installation
+
+scFEA is implemented by Python3.
+- Python 3.7
+- numpy >= 1.15.4
+- torch >= 0.4.1
+- pandas >= 0.23.4
+- matplotlib >=3.0.2
+
+Download scFEA:
+```
+git clone https://github.com/changwn/scFEA
+```
+
+Install requirements:
+```
+pip3 install -r requirements --user
+```
+
+
 ## Citation
 
 If you find our work helpful in your resarch or work, please cite us.
