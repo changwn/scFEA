@@ -213,7 +213,11 @@ def main(args):
 #        scheduler.step(loss)
 #        print("m...", out_m_batch[0,:])
 #        print("c*********", out_c_batch[0,:])
-        print('epoch: %02d, loss1: %.8f, loss2_lambda_free: %.8f, loss: %.8f' % (epoch+1, loss1, loss2/lamb_scale, loss))
+#        print('epoch: %02d, loss1: %.8f, loss2_lambda_free: %.8f, loss: %.8f' % (epoch+1, loss1, loss2/lamb_scale, loss))
+        sys.stdout.write("[%-60s] %d%%" % ('='*(60*(epoch+1)/EPOCH), (100*(epoch+1)/EPOCH)))
+        sys.stdout.flush()
+        sys.stdout.write(", epoch %d"% (epoch+1))
+        sys.stdout.flush()
         loss_v.append(loss)
         loss_v1.append(loss1)
         loss_v2.append(loss2/lamb_scale)
@@ -272,9 +276,9 @@ def main(args):
 def parse_arguments(parser):
 
 
-    parser.add_argument('--data_dir', type=str, default='data/', metavar='<data_directory>',
+    parser.add_argument('--data_dir', type=str, default='data', metavar='<data_directory>',
                         help='The data directory for input data')
-    parser.add_argument('--res_dir', type=str, default='output/', metavar='<data_directory>',
+    parser.add_argument('--res_dir', type=str, default='output', metavar='<data_directory>',
                         help='The data directory for result [output]')
     parser.add_argument('--test_file', type=str, default='Melissa_metabolic_c88_m14.csv', help='The test SC file [input]')
     parser.add_argument('--moduleGene_file', type=str, default='module_gene_m14.csv', 
