@@ -34,10 +34,10 @@ Supplementary Figures:
 
 ## Requirements and Installation
 
-scFEA is implemented by Python3.
-- Python 3.7
-- numpy >= 1.15.4
+scFEA is implemented by Python3. If you don't have python, please download [Anaconda](https://www.anaconda.com/download/#linux) with python 3 version.
+
 - torch >= 0.4.1
+- numpy >= 1.15.4
 - pandas >= 0.23.4
 - matplotlib >=3.0.2
 
@@ -48,7 +48,20 @@ git clone https://github.com/changwn/scFEA
 
 Install requirements:
 ```
-pip3 install -r requirements --user
+conda install --file requirements
+conda install pytorch torchvision -c pytorch
+```
+
+## Usage
+
+You can see the input arguments for scFEA by help option:
+```
+usage: scFEA.py
+```
+
+### Predict flux for single cell
+```
+python src/scFEA.py --data_dir data --test_file test_snps --res_dir output
 ```
 
 
