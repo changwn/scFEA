@@ -76,7 +76,7 @@ optional arguments: 
     --moduleGene_file MODULEGENE_FILE                        
                           The table contains genes for each module.  
     --stoichiometry_matrix STOICHIOMETRY_MATRIX                        
-                          The table descript relationship between compounds and modules.
+                          The table describes relationship between compounds and modules.
 ```
 
 **Run code with default parameters:**
