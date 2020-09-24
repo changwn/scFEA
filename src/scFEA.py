@@ -73,14 +73,16 @@ def myLoss(m,  c, df, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, cellId = 1):
 
 
 def main(args):
+    
 
+    
 	# set arguments
-	data_path = args.data_dir
-	res_dir = args.res_dir
-	test_file = args.test_file
-	moduleGene_file = args.moduleGene_file
-	cm_file = args.stoichiometry_matrix
-
+    data_path = args.data_dir
+    res_dir = args.res_dir
+    test_file = args.test_file
+    moduleGene_file = args.moduleGene_file
+    cm_file = args.stoichiometry_matrix
+    
     # choose cpu or gpu automatically
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
@@ -226,7 +228,7 @@ def main(args):
     plt.legend(['total', 'balance', 'scale']);
     timestr = time.strftime("%Y%m%d-%H%M%S")
 #    imgName = "./output/loss_" + timestr + ".png"
-	imgName = './' + res_dir + '/loss_' + timestr + ".png"
+    imgName = './' + res_dir + '/loss_' + timestr + ".png"
     plt.savefig(imgName)
     
     #save model
@@ -274,10 +276,10 @@ def parse_arguments(parser):
                         help='The data directory for input data')
     parser.add_argument('--res_dir', type=str, default='output/', metavar='<data_directory>',
                         help='The data directory for result [output]')
-	parser.add_argument('--test_file', type=str, default='Melissa_metabolic_c88_m14.csv', help='The test SC file [input]')
-	parser.add_argument('--moduleGene_file', type=str, default='module_gene_m14.csv', 
+    parser.add_argument('--test_file', type=str, default='Melissa_metabolic_c88_m14.csv', help='The test SC file [input]')
+    parser.add_argument('--moduleGene_file', type=str, default='module_gene_m14.csv', 
 						help='The table contains genes for each module.')
-	parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m14.csv', 
+    parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m14.csv', 
 						help='The table descript relationship between compounds and modules.')
 
 
@@ -287,7 +289,7 @@ def parse_arguments(parser):
 
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(
-    description='scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data')
+    parser = argparse.ArgumentParser(
+        description='scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data')
     args = parse_arguments(parser)
     main(args)
