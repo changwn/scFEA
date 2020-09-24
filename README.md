@@ -48,6 +48,7 @@ git clone https://github.com/changwn/scFEA
 
 Install requirements:
 ```
+cd scFEA
 conda install --file requirements
 conda install pytorch torchvision -c pytorch
 ```
