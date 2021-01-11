@@ -40,6 +40,7 @@ scFEA is implemented by Python3. If you don't have python, please download [Anac
 - numpy >= 1.15.4
 - pandas >= 0.23.4
 - matplotlib >=3.0.2
+- magic >= 2.0.4
 
 Download scFEA:
 ```
