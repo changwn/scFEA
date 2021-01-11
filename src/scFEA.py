@@ -73,7 +73,6 @@ def myLoss(m,  c, df, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, cellId = 1):
 
 
 def main(args):
-    
 
     
 	# set arguments
@@ -294,6 +293,6 @@ def parse_arguments(parser):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data')
+        description='scFEA: A graph neural network model to estimate cell-wise metabolic flux using single cell RNA-seq data')
     args = parse_arguments(parser)
     main(args)
