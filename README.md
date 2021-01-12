@@ -87,7 +87,7 @@ python src/scFEA.py
 
 **Other example:**
 ```
-python src/scFEA.py --data_dir data --res_dir output --test_file Melissa_metabolic_c88_m100.csv
+python src/scFEA.py --data_dir data --res_dir output --test_file Melissa_full.csv
 ```
 
 
