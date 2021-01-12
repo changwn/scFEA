@@ -79,6 +79,8 @@ optional arguments:
                           The table contains genes for each module.  
     --stoichiometry_matrix STOICHIOMETRY_MATRIX                        
                           The table describes relationship between compounds and modules.
+    --sc_imputation {True, False}                      
+                          Whether perform imputation for SC dataset (recommend set to <True> for 10x data).
 ```
 
 **Run code with default parameters:**
