@@ -80,6 +80,7 @@ def main(args):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
     # read data
+    print("Starting load data...")
     geneExpr = pd.read_csv(
                 data_path + '/' + test_file,
                 index_col=0)
@@ -109,8 +110,9 @@ def main(args):
             header=None)
     cmMat = cmMat.values
     cmMat = torch.FloatTensor(cmMat).to(device)
+    print("Load data done.")
     
-    
+    print("Starting process data...")
     emptyNode = []
     gene_names = geneExpr.columns
     cell_names = geneExpr.index.astype(str)
@@ -142,6 +144,7 @@ def main(args):
     #module_scale = df.groupby(df.index).sum(axis=1).T   # pandas version update
     module_scale = df.groupby(df.index).sum().T  
     module_scale = torch.FloatTensor(module_scale.values/ moduleLen) 
+    print("Process data done.")
 
     
     
@@ -167,6 +170,7 @@ def main(args):
    
     
 # =============================================================================
+    print("Starting train neural network...")
     start = time.time()  
 #   training
     loss_v = []
@@ -276,7 +280,7 @@ def main(args):
     setB.to_csv(balanceName)
     
 
-    print("Done. Check result in the desired output folder.")
+    print("scFEA job finished. Check result in the desired output folder.")
     
     
     return
