@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np 
 import pandas as pd
 import magic
+from tqdm import tqdm
 
 # scFEA lib
 from ClassFlux import FLUX # Flux class network
@@ -177,7 +178,7 @@ def main(args):
     timestr = time.strftime("%Y%m%d-%H%M%S")
     lossName = "./output/lossValue_" + timestr + ".txt"
     file_loss = open(lossName, "a")
-    for epoch in range(EPOCH):
+    for epoch in tqdm(range(EPOCH)):
         loss, loss1, loss2, loss3, loss4 = 0,0,0,0,0
         
         for i, (X, X_scale, m_scale) in enumerate(train_loader):
@@ -201,7 +202,7 @@ def main(args):
             loss3 += loss3_batch.cpu().data.numpy()
             loss4 += loss4_batch.cpu().data.numpy()
             
-        print('epoch: %02d, loss1: %.8f, loss2: %.8f, loss3: %.8f, loss4: %.8f, loss: %.8f' % (epoch+1, loss1, loss2, loss3, loss4, loss))
+        #print('epoch: %02d, loss1: %.8f, loss2: %.8f, loss3: %.8f, loss4: %.8f, loss: %.8f' % (epoch+1, loss1, loss2, loss3, loss4, loss))
         file_loss.write('epoch: %02d, loss1: %.8f, loss2: %.8f, loss3: %.8f, loss4: %.8f, loss: %.8f. \n' % (epoch+1, loss1, loss2, loss3, loss4, loss))
         
         loss_v.append(loss)
