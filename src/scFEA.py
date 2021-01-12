@@ -31,7 +31,7 @@ LAMB_CELL =  1
 LAMB_MOD = 1e-2 
 
 
-def myLoss(m, c, df, mLength, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, cellId = 1, superIDtable = None, superModuleID = None, geneScale = None, moduleScale = None):    
+def myLoss(m, c, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, geneScale = None, moduleScale = None):    
     
     # balance constrain
     total1 = torch.pow(c, 2)
@@ -39,7 +39,8 @@ def myLoss(m, c, df, mLength, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2,
     
     # non-negative constrain
     error = torch.abs(m) - m
-    total2 = torch.sum(error, dim=1)   
+    total2 = torch.sum(error, dim=1)
+    
     
     # sample-wise variation constrain 
     corr = pearsonr(torch.mean(m, dim=1), geneScale)
@@ -293,7 +294,7 @@ def parse_arguments(parser):
                         help='The table contains genes for each module.')
     parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m171.csv', 
                         help='The table describes relationship between compounds and modules.')
-    parser.add_argument('--sc_imputation', type=eval, default='True', choices=[True, False],
+    parser.add_argument('--sc_imputation', type=eval, default='False', choices=[True, False],
                         help='Whether perform imputation for SC dataset (recommend set to <True> for 10x data).')
 
     args = parser.parse_args()
