@@ -64,6 +64,7 @@ usage: scFEA.py [-h] [--data_dir <data_directory>]
                 [--res_dir <data_directory>] [--test_file TEST_FILE]                
                 [--moduleGene_file MODULEGENE_FILE]                
                 [--stoichiometry_matrix STOICHIOMETRY_MATRIX]
+                [--sc_imputation {True,False}]
                 
 scFEA: A graph neural network model to estimate cell-wise metabolic usingsingle cell RNA-seq data
 
