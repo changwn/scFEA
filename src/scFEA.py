@@ -294,7 +294,7 @@ def parse_arguments(parser):
     parser.add_argument('--res_dir', type=str, default='output', metavar='<data_directory>',
                         help='The data directory for result [output]. The output of scFEA includes two matrices, predicted metabolic flux and metabolites stress at single cell resolution.')
     parser.add_argument('--test_file', type=str, default='Melissa_full.csv', 
-                        help='The test SC file [input]. The input of scFEA is a single cell profile matrix, where row is genes and column is cells. Example datasets are provided in /data/ folder ')
+                        help='The test SC file [input]. The input of scFEA is a single cell profile matrix, where row is gene and column is cell. Example datasets are provided in /data/ folder ')
     parser.add_argument('--moduleGene_file', type=str, default='module_gene_m171_vDec2020.csv', 
                         help='The table contains genes for each module. We provide human and mouse two models in scFEA. For human model, please use module_gene_m171_vDec2020.csv which is default. For mouse model, please use module_gene_mouse_m162.csv. All candidate moduleGene files are provided in /data/ folder.')
     parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m171.csv', 
