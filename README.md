@@ -80,22 +80,41 @@ usage: scFEA.py [-h] [--data_dir <data_directory>]
                 [--stoichiometry_matrix STOICHIOMETRY_MATRIX]
                 [--sc_imputation {True,False}]
                 
-scFEA: A graph neural network model to estimate cell-wise metabolic usingsingle cell RNA-seq data
+scFEA: A graph neural network model to estimate cell-wise metabolic flux using
+single cell RNA-seq data
 
-optional arguments:  
-    -h, --help            show this help message and exit  
-    --data_dir <data_directory>                        
-                          The data directory for input data  
-    --res_dir <data_directory>                        
-                          The data directory for result [output]  
-    --test_file TEST_FILE                        
-                          The test SC file [input]  
-    --moduleGene_file MODULEGENE_FILE                        
-                          The table contains genes for each module.  
-    --stoichiometry_matrix STOICHIOMETRY_MATRIX                        
-                          The table describes relationship between compounds and modules.
-    --sc_imputation {True, False}                      
-                          Whether perform imputation for SC dataset (recommend set to <True> for 10x data).
+optional arguments:
+  -h, --help            show this help message and exit
+  --data_dir <data_directory>
+                        The data directory for input data
+  --res_dir <data_directory>
+                        The data directory for result [output]. The output of
+                        scFEA includes two matrices, predicted metabolic flux
+                        and metabolites stress at single cell resolution.
+  --test_file TEST_FILE
+                        The test SC file [input]. The input of scFEA is a
+                        single cell profile matrix, where row is genes and
+                        column is cells. Example datasets are provided in
+                        /data/ folder
+  --moduleGene_file MODULEGENE_FILE
+                        The table contains genes for each module. We provide
+                        human and mouse two models in scFEA. For human model,
+                        please use module_gene_m171_vDec2020.csv which is
+                        default. For mouse model, please use
+                        module_gene_mouse_m162.csv. All candidate moduleGene
+                        files are provided in /data/ folder.
+  --stoichiometry_matrix STOICHIOMETRY_MATRIX
+                        The table describes relationship between compounds and
+                        modules. Each row is an intermediate metabolite and
+                        each column is metabolic module. For human model,
+                        please use cmMat_171.csv which is default. For mouse
+                        model, please use cmMat_mouse_c66_m162.csv. All
+                        candidate stoichiometry matrices are provided in
+                        /data/ folder.
+  --sc_imputation {True,False}
+                        Whether perform imputation for SC dataset (recommend
+                        set to <True> for 10x data).
+
 ```
 
 **Run code with default parameters:**
