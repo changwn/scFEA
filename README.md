@@ -93,8 +93,8 @@ optional arguments:
                         and metabolites stress at single cell resolution.
   --test_file TEST_FILE
                         The test SC file [input]. The input of scFEA is a
-                        single cell profile matrix, where row is genes and
-                        column is cells. Example datasets are provided in
+                        single cell profile matrix, where row is gene and
+                        column is cell. Example datasets are provided in
                         /data/ folder
   --moduleGene_file MODULEGENE_FILE
                         The table contains genes for each module. We provide
