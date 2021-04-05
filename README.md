@@ -95,7 +95,9 @@ optional arguments:
                         The test SC file [input]. The input of scFEA is a
                         single cell profile matrix, where row is gene and
                         column is cell. Example datasets are provided in
-                        /data/ folder
+                        /data/ folder. The input can be raw counts or 
+						normalised counts. The logarithm would be performed
+						if value larger than 30.
   --moduleGene_file MODULEGENE_FILE
                         The table contains genes for each module. We provide
                         human and mouse two models in scFEA. For human model,
