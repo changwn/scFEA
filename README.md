@@ -74,19 +74,21 @@ pip install --user magic-impute
 You can see the input arguments for scFEA by help option:
 ```
 python src/scFEA.py --help
-usage: scFEA.py [-h] [--data_dir <data_directory>]                
-                [--res_dir <data_directory>] [--test_file TEST_FILE]                
-                [--moduleGene_file MODULEGENE_FILE]                
+usage: scFEA.py [-h] [--data_dir <data_directory>]
+                [--input_dir <input_directory>] [--res_dir <data_directory>]
+                [--test_file TEST_FILE] [--moduleGene_file MODULEGENE_FILE]
                 [--stoichiometry_matrix STOICHIOMETRY_MATRIX]
                 [--sc_imputation {True,False}]
-                
+
 scFEA: A graph neural network model to estimate cell-wise metabolic flux using
 single cell RNA-seq data
 
 optional arguments:
   -h, --help            show this help message and exit
   --data_dir <data_directory>
-                        The data directory for input data
+                        The data directory for scFEA model files.
+  --input_dir <input_directory>
+                        The data directory for single cell input data.
   --res_dir <data_directory>
                         The data directory for result [output]. The output of
                         scFEA includes two matrices, predicted metabolic flux
@@ -95,9 +97,9 @@ optional arguments:
                         The test SC file [input]. The input of scFEA is a
                         single cell profile matrix, where row is gene and
                         column is cell. Example datasets are provided in
-                        /data/ folder. The input can be raw counts or 
-						normalised counts. The logarithm would be performed
-						if value larger than 30.
+                        /data/ folder. The input can be raw counts or
+                        normalised counts. The logarithm would be performed if
+                        value larger than 30.
   --moduleGene_file MODULEGENE_FILE
                         The table contains genes for each module. We provide
                         human and mouse two models in scFEA. For human model,
@@ -117,6 +119,7 @@ optional arguments:
                         Whether perform imputation for SC dataset (recommend
                         set to <True> for 10x data).
 
+
 ```
 
 **Run code with default parameters:**
@@ -126,7 +129,7 @@ python src/scFEA.py
 
 **Other example:**
 ```
-python src/scFEA.py --data_dir data --res_dir output --test_file Melissa_full.csv
+python src/scFEA.py --input_dir data --res_dir output --test_file Melissa_full.csv
 ```
 
 
