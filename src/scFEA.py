@@ -69,6 +69,7 @@ def main(args):
 
     # set arguments
     data_path = args.data_dir
+    input_path = args.input_dir
     res_dir = args.res_dir
     test_file = args.test_file
     moduleGene_file = args.moduleGene_file
@@ -82,7 +83,7 @@ def main(args):
     # read data
     print("Starting load data...")
     geneExpr = pd.read_csv(
-                data_path + '/' + test_file,
+                input_path + '/' + test_file,
                 index_col=0)
     geneExpr = geneExpr.T
     if sc_imputation == True:
@@ -290,7 +291,9 @@ def parse_arguments(parser):
 
 
     parser.add_argument('--data_dir', type=str, default='data', metavar='<data_directory>',
-                        help='The data directory for input data')
+                        help='The data directory for scFEA model files.')
+    parser.add_argument('--input_dir', type=str, default='data', metavar='<input_directory>',
+                        help='The data directory for single cell input data.')
     parser.add_argument('--res_dir', type=str, default='output', metavar='<data_directory>',
                         help='The data directory for result [output]. The output of scFEA includes two matrices, predicted metabolic flux and metabolites stress at single cell resolution.')
     parser.add_argument('--test_file', type=str, default='Melissa_full.csv', 
