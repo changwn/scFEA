@@ -84,10 +84,10 @@ def main(args):
     geneExpr = pd.read_csv(
                 data_path + '/' + test_file,
                 index_col=0)
+    geneExpr = geneExpr.T
     if sc_imputation == True:
         magic_operator = magic.MAGIC()
         geneExpr = magic_operator.fit_transform(geneExpr)
-    geneExpr = geneExpr.T
     if geneExpr.max().max() > 50:
         geneExpr = (geneExpr + 1).apply(np.log2)  
     geneExprSum = geneExpr.sum(axis=1)
