@@ -7,6 +7,7 @@
 # system lib
 import argparse
 import time
+import warnings
 
 # tools
 import torch
@@ -88,7 +89,9 @@ def main(args):
     geneExpr = geneExpr.T
     if sc_imputation == True:
         magic_operator = magic.MAGIC()
-        geneExpr = magic_operator.fit_transform(geneExpr)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            geneExpr = magic_operator.fit_transform(geneExpr)
     if geneExpr.max().max() > 50:
         geneExpr = (geneExpr + 1).apply(np.log2)  
     geneExprSum = geneExpr.sum(axis=1)
