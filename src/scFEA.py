@@ -45,17 +45,24 @@ def myLoss(m, c, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, geneScale = 
     
     
     # sample-wise variation constrain 
-    corr = pearsonr(torch.mean(m, dim=1), geneScale)
-    penal_var = torch.FloatTensor(np.ones(1)) - corr
-    total3 = penal_var
+    diff = torch.pow(torch.sum(m, dim=1) - geneScale, 2)
+    #total3 = torch.pow(diff, 0.5)
+    if sum(diff > 0) == m.shape[0]: # solve Nan after several iteraions
+        total3 = torch.pow(diff, 0.5)
+    else:
+        print('find 0 in loss three.')
+        total3 = diff
     
     # module-wise variation constrain
-    corr = torch.FloatTensor(np.ones(m.shape[0]))
-    for i in range(m.shape[0]):
-        corr[i] = pearsonr(m[i, :], moduleScale[i, :])
-    corr = torch.abs(corr)
-    penal_m_var = torch.FloatTensor(np.ones(m.shape[0])) - corr
-    total4 = penal_m_var
+    if lamb4 > 0 :
+        corr = torch.FloatTensor(np.ones(m.shape[0]))
+        for i in range(m.shape[0]):
+            corr[i] = pearsonr(m[i, :], moduleScale[i, :])
+        corr = torch.abs(corr)
+        penal_m_var = torch.FloatTensor(np.ones(m.shape[0])) - corr
+        total4 = penal_m_var
+    else:
+        total4 = torch.FloatTensor(np.zeros(m.shape[0]))
             
     # loss
     loss1 = torch.sum(lamb1 * total1)
@@ -87,6 +94,7 @@ def main(args):
                 input_path + '/' + test_file,
                 index_col=0)
     geneExpr = geneExpr.T
+    geneExpr = geneExpr * 1.0
     if sc_imputation == True:
         magic_operator = magic.MAGIC()
         with warnings.catch_warnings():
