@@ -50,7 +50,6 @@ def myLoss(m, c, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, geneScale = 
     if sum(diff > 0) == m.shape[0]: # solve Nan after several iteraions
         total3 = torch.pow(diff, 0.5)
     else:
-        print('find 0 in loss three.')
         total3 = diff
     
     # module-wise variation constrain
