@@ -25,7 +25,7 @@ from DatasetFlux import MyDataset
 
 
 # hyper parameters
-LEARN_RATE = 0.008  # 0.008 for m14 ; 0.02 for m100, 0.01 for m100 162 cell.
+LEARN_RATE = 0.008  
 EPOCH = 100
 LAMB_BA = 1
 LAMB_NG = 1 
@@ -82,6 +82,7 @@ def main(args):
     moduleGene_file = args.moduleGene_file
     cm_file = args.stoichiometry_matrix
     sc_imputation = args.sc_imputation
+    cName_file = args.cName_file
 
 
     # choose cpu or gpu automatically
@@ -115,16 +116,36 @@ def main(args):
     moduleLen = [moduleGene.iloc[i,:].notna().sum() for i in range(moduleGene.shape[0]) ]
     moduleLen = np.array(moduleLen)
     
+    # find existing gene
+    module_gene_all = []
+    for i in range(moduleGene.shape[0]):
+        for j in range(moduleGene.shape[1]):
+            if pd.isna(moduleGene.iloc[i,j]) == False:
+                module_gene_all.append(moduleGene.iloc[i,j])
+    module_gene_all = set(module_gene_all)
+    data_gene_all = set(geneExpr.columns)
+    gene_overlap = data_gene_all.intersection(module_gene_all)
+    
     cmMat = pd.read_csv(
             data_path + '/' + cm_file,
             sep=',',
             header=None)
     cmMat = cmMat.values
     cmMat = torch.FloatTensor(cmMat).to(device)
+    
+    if cName_file != 'noCompoundName':
+        print("Load compound name file, the balance output will have compound name.")
+        cName = pd.read_csv(
+                "./data/" + cName_file + ".csv",
+                sep=',',
+                header=0)
+        cName = cName.columns
     print("Load data done.")
     
     print("Starting process data...")
     emptyNode = []
+    # extract overlap gene
+    geneExpr = geneExpr[gene_overlap] 
     gene_names = geneExpr.columns
     cell_names = geneExpr.index.astype(str)
     n_modules = moduleGene.shape[0]
@@ -275,7 +296,7 @@ def main(args):
                    
     
     # save to file
-    fileName = "./" + res_dir + "/module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
+    fileName = "./" + res_dir + test_file[-len(test_file):-4] + "/module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
                 "_LR" + str(LEARN_RATE) + "_epoch" + str(EPOCH) + "_SCimpute_" + str(sc_imputation)[0] + \
                 "_lambBal" + str(LAMB_BA) + "_lambSca" + str(LAMB_NG) + "_lambCellCor" + str(LAMB_CELL) + "_lambModCor_1e-2" + \
                 '_' + timestr + ".csv"
@@ -287,6 +308,8 @@ def main(args):
     setB = pd.DataFrame(balanceStatus)
     setB.rename(columns = lambda x: x + 1)
     setB.index = setF.index
+    if cName_file != 'noCompoundName':
+        setB.columns = cName
     balanceName = "./output/balance_" + timestr + ".csv"
     setB.to_csv(balanceName)
     
@@ -312,6 +335,8 @@ def parse_arguments(parser):
                         help='The table contains genes for each module. We provide human and mouse two models in scFEA. For human model, please use module_gene_m171_vDec2020.csv which is default. For mouse model, please use module_gene_mouse_m162.csv. All candidate moduleGene files are provided in /data/ folder.')
     parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_m171.csv', 
                         help='The table describes relationship between compounds and modules. Each row is an intermediate metabolite and each column is metabolic module. For human model, please use cmMat_171.csv which is default. For mouse model, please use cmMat_mouse_c66_m162.csv. All candidate stoichiometry matrices are provided in /data/ folder.')
+    parser.add_argument('--cName_file', type=str, default='noCompoundName',
+                        help='The name of compounds. The table contains two rows. First row is compounds name and second row is corresponding id.')
     parser.add_argument('--sc_imputation', type=eval, default='False', choices=[True, False],
                         help='Whether perform imputation for SC dataset (recommend set to <True> for 10x data).')
 
