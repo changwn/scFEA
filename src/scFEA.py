@@ -136,7 +136,7 @@ def main(args):
     if cName_file != 'noCompoundName':
         print("Load compound name file, the balance output will have compound name.")
         cName = pd.read_csv(
-                "./data/" + cName_file + ".csv",
+                "./data/" + cName_file,
                 sep=',',
                 header=0)
         cName = cName.columns
