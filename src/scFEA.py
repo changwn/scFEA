@@ -296,7 +296,7 @@ def main(args):
                    
     
     # save to file
-    fileName = "./" + res_dir + test_file[-len(test_file):-4] + "/module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
+    fileName = "./" + res_dir + "/" + test_file[-len(test_file):-4] + "_module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
                 "_LR" + str(LEARN_RATE) + "_epoch" + str(EPOCH) + "_SCimpute_" + str(sc_imputation)[0] + \
                 "_lambBal" + str(LAMB_BA) + "_lambSca" + str(LAMB_NG) + "_lambCellCor" + str(LAMB_CELL) + "_lambModCor_1e-2" + \
                 '_' + timestr + ".csv"
