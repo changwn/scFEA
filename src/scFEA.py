@@ -334,7 +334,7 @@ def parse_arguments(parser):
     parser.add_argument('--moduleGene_file', type=str, default='module_gene_m168.csv', 
                         help='The table contains genes for each module. We provide human and mouse two models in scFEA. For human model, please use module_gene_m168.csv which is default.  All candidate moduleGene files are provided in /data/ folder.')
     parser.add_argument('--stoichiometry_matrix', type=str, default='cmMat_c70_m168.csv', 
-                        help='The table describes relationship between compounds and modules. Each row is an intermediate metabolite and each column is metabolic module. For human model, please use cmMat_171.csv which is default. For mouse model, please use cmMat_mouse_c66_m162.csv. All candidate stoichiometry matrices are provided in /data/ folder.')
+                        help='The table describes relationship between compounds and modules. Each row is an intermediate metabolite and each column is metabolic module. For human model, please use cmMat_171.csv which is default. All candidate stoichiometry matrices are provided in /data/ folder.')
     parser.add_argument('--cName_file', type=str, default='cName_c70_m168.csv',
                         help='The name of compounds. The table contains two rows. First row is compounds name and second row is corresponding id.')
     parser.add_argument('--sc_imputation', type=eval, default='False', choices=[True, False],
