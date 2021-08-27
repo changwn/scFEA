@@ -12,7 +12,7 @@ The metabolic heterogeneity, and metabolic interplay between cells and their mic
 
 ## The manuscript and supplementary methods
 
-Our paper and supplementary methods is available at [here](https://www.biorxiv.org/content/10.1101/2020.09.23.310656v2)!
+Our paper and supplementary methods is available at [here](https://genome.cshlp.org/content/early/2021/07/22/gr.271205.120.abstract)!
 
 ## Supplementary figures and tables
 
