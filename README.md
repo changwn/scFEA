@@ -90,32 +90,23 @@ optional arguments:
   --input_dir <input_directory>
                         The data directory for single cell input data.
   --res_dir <data_directory>
-                        The data directory for result [output]. The output of
-                        scFEA includes two matrices, predicted metabolic flux
-                        and metabolites stress at single cell resolution.
+                        The data directory for result [output]. The output of scFEA includes two matrices, predicted metabolic flux and metabolites
+                        stress at single cell resolution.
   --test_file TEST_FILE
-                        The test SC file [input]. The input of scFEA is a
-                        single cell profile matrix, where row is gene and
-                        column is cell. Example datasets are provided in
-                        /data/ folder. The input can be raw counts or
-                        normalised counts. The logarithm would be performed if
-                        value larger than 30.
+                        The test SC file [input]. The input of scFEA is a single cell profile matrix, where row is gene and column is cell. Example
+                        datasets are provided in /data/ folder. The input can be raw counts or normalised counts. The logarithm would be performed
+                        if value larger than 30.
   --moduleGene_file MODULEGENE_FILE
-                        The table contains genes for each module. We provide
-                        human and mouse two models in scFEA. For human model,
-                        please use module_gene_m168.csv which is
-                        default. All candidate moduleGene
-                        files are provided in /data/ folder.
+                        The table contains genes for each module. We provide human and mouse two models in scFEA. For human model, please use
+                        module_gene_m168.csv which is default. All candidate moduleGene files are provided in /data/ folder.
   --stoichiometry_matrix STOICHIOMETRY_MATRIX
-                        The table describes relationship between compounds and
-                        modules. Each row is an intermediate metabolite and
-                        each column is metabolic module. For human model,
-                        please use cmMat_c70_m168.csv which is default. All
-                        candidate stoichiometry matrices are provided in
-                        /data/ folder.
+                        The table describes relationship between compounds and modules. Each row is an intermediate metabolite and each column is
+                        metabolic module. For human model, please use cmMat_171.csv which is default. All candidate stoichiometry matrices are
+                        provided in /data/ folder.
+  --cName_file CNAME_FILE
+                        The name of compounds. The table contains two rows. First row is compounds name and second row is corresponding id.
   --sc_imputation {True,False}
-                        Whether perform imputation for SC dataset (recommend
-                        set to <True> for 10x data).
+                        Whether perform imputation for SC dataset (recommend set to <True> for 10x data).
 
 
 ```
