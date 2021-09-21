@@ -45,6 +45,21 @@ Supplementary Figures:
 
 - Figure S6. Convergency of the flux balance loss and non-negative loss during the training of scFEA on the pancreatic cancer cell line data. The hyper parameters of the two loss were set differently to form four experiments. The flux balance loss, non-negative loss and total loss were blue, red and black-dash colored.
 
+## Change Log
+
+### v1.0
+- Release scFEA initial version with full paper and installtion manual
+- Release human complete metabolic flux modules
+
+### v1.1
+- Update full modules with metabolites names.
+- Update `data_dir` and `input_dir` two directories. `data_dir` is for model files and `input_dir` is for single cell input files.
+- Fix bugs in single cell imputation step by using [Magic](https://www.krishnaswamylab.org/projects/magic).
+
+### v1.1.2
+- Release mouse complete metabolic flux modules
+- Release [tutorial]() using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
+
 
 ## Requirements and Installation
 
