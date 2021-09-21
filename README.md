@@ -58,7 +58,7 @@ Supplementary Figures:
 
 ### v1.1.2
 - Release mouse complete metabolic flux modules
-- Release [tutorial]() using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
+- Release [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial1.ipynb) using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
 
 
 ## Requirements and Installation
