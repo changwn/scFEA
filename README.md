@@ -1,5 +1,22 @@
 ## scFEA: A graph neural network model to estimate cell-wise metabolic using single cell RNA-seq data
 
+## Change Log
+
+### v1.0
+- Release scFEA initial version with full paper and installtion manual
+- Release human complete metabolic flux modules
+
+### v1.1
+- Update full modules with metabolites names.
+- Update `data_dir` and `input_dir` two directories. `data_dir` is for model files and `input_dir` is for single cell input files.
+- Fix bugs in single cell imputation step by using [Magic](https://www.krishnaswamylab.org/projects/magic).
+
+### v1.1.2
+- Release mouse complete metabolic flux modules
+- Release [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial1.ipynb) using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
+
+
+
 ## Abstract
 
 The metabolic heterogeneity, and metabolic interplay between cells and their microenvironment have been known as significant contributors to disease treatment resistance. Our understanding of the intra-tissue metabolic heterogeneity and cooperation phenomena among cell populations is unfortunately quite limited, without a mature single cell metabolomics technology. To mitigate this knowledge gap, we developed a novel computational method, namely **scFEA** (**s**ingle **c**ell **F**lux **E**stimation **A**nalysis), to infer single cell fluxome from single cell RNA-sequencing (scRNA-seq) data.  scFEA is empowered by a comprehensively reorganized human metabolic map as focused metabolic modules, a novel probabilistic model to leverage the flux balance constraints on scRNA-seq data, and a novel graph neural network based optimization solver. The intricate information cascade from transcriptome to metabolome was captured using multi-layer neural networks to fully capitulate the non-linear dependency between enzymatic gene expressions and reaction rates. We experimentally validated scFEA by generating an scRNA-seq dataset with matched metabolomics data on cells of perturbed oxygen and genetic conditions. Application of scFEA on this dataset demonstrated the consistency between predicted flux and metabolic imbalance with the observed variation of metabolites in the matched metabolomics data. We also applied scFEA on publicly available single cell melanoma and head and neck cancer datasets, and discovered different metabolic landscapes between cancer and stromal cells. The cell-wise fluxome predicted by scFEA empowers a series of downstream analysis including identification of metabolic modules or cell groups that share common metabolic variations, sensitivity evaluation of enzymes with regards to their impact on the whole metabolic flux, and inference of cell-tissue and cell-cell metabolic communications.
@@ -44,21 +61,6 @@ Supplementary Figures:
 - Figure S5. Boxplots of the predicted fluxes of Valine -> Succinyl-CoA, Isoleucine -> Succinyl-CoA, Isoleucine -> Acetyl-CoA, Glutathione -> Glycine + Cysteine, Glutathione -> Glutamate, Glutamate -> Glutamine and predicted changes in the abundance of Glutathione and Glutamate in the PV-ADSC of high stemness (HS) and more differentiation (MD).
 
 - Figure S6. Convergency of the flux balance loss and non-negative loss during the training of scFEA on the pancreatic cancer cell line data. The hyper parameters of the two loss were set differently to form four experiments. The flux balance loss, non-negative loss and total loss were blue, red and black-dash colored.
-
-## Change Log
-
-### v1.0
-- Release scFEA initial version with full paper and installtion manual
-- Release human complete metabolic flux modules
-
-### v1.1
-- Update full modules with metabolites names.
-- Update `data_dir` and `input_dir` two directories. `data_dir` is for model files and `input_dir` is for single cell input files.
-- Fix bugs in single cell imputation step by using [Magic](https://www.krishnaswamylab.org/projects/magic).
-
-### v1.1.2
-- Release mouse complete metabolic flux modules
-- Release [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial1.ipynb) using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
 
 
 ## Requirements and Installation
