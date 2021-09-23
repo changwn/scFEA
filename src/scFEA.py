@@ -83,7 +83,8 @@ def main(args):
     cm_file = args.stoichiometry_matrix
     sc_imputation = args.sc_imputation
     cName_file = args.cName_file
-
+    fileName = args.output_flux_file
+    balanceName = args.output_balance_file
 
     # choose cpu or gpu automatically
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -296,10 +297,12 @@ def main(args):
                    
     
     # save to file
-    fileName = "./" + res_dir + "/" + test_file[-len(test_file):-4] + "_module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
-                "_LR" + str(LEARN_RATE) + "_epoch" + str(EPOCH) + "_SCimpute_" + str(sc_imputation)[0] + \
-                "_lambBal" + str(LAMB_BA) + "_lambSca" + str(LAMB_NG) + "_lambCellCor" + str(LAMB_CELL) + "_lambModCor_1e-2" + \
-                '_' + timestr + ".csv"
+    if fileName == 'NULL':
+        # user do not define file name of flux
+        fileName = "./" + res_dir + "/" + test_file[-len(test_file):-4] + "_module" + str(n_modules) + "_cell" + str(n_cells) + "_batch" + str(BATCH_SIZE) + \
+                    "_LR" + str(LEARN_RATE) + "_epoch" + str(EPOCH) + "_SCimpute_" + str(sc_imputation)[0] + \
+                    "_lambBal" + str(LAMB_BA) + "_lambSca" + str(LAMB_NG) + "_lambCellCor" + str(LAMB_CELL) + "_lambModCor_1e-2" + \
+                    '_' + timestr + ".csv"
     setF = pd.DataFrame(fluxStatuTest)
     setF.columns = moduleGene.index
     setF.index = geneExpr.index.tolist()
@@ -310,7 +313,9 @@ def main(args):
     setB.index = setF.index
     if cName_file != 'noCompoundName':
         setB.columns = cName
-    balanceName = "./output/balance_" + timestr + ".csv"
+    if balanceName == 'NULL':
+        # user do not define file name of balance
+        balanceName = "./output/balance_" + timestr + ".csv"
     setB.to_csv(balanceName)
     
 
@@ -339,6 +344,12 @@ def parse_arguments(parser):
                         help='The name of compounds. The table contains two rows. First row is compounds name and second row is corresponding id.')
     parser.add_argument('--sc_imputation', type=eval, default='False', choices=[True, False],
                         help='Whether perform imputation for SC dataset (recommend set to <True> for 10x data).')
+    parser.add_argument('--output_flux_file', type=str, default='NULL', 
+                        help='User defined predicted flux file name.')
+    parser.add_argument('--output_balance_file', type=str, default='NULL', 
+                        help='User defined predicted balance file name.')
+    
+    
 
     args = parser.parse_args()
 
