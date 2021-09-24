@@ -15,6 +15,7 @@
 - Release mouse complete metabolic flux modules
 - Release [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial1.ipynb) using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
 - add parameter `output_flux_file` and `output_balance_file` which allows user define custom output file names for predicted flux and balance files.
+- fix bug in *cName_c70_m168.csv* which contains `NA` value
 
 ### To be released soon 
 If you have an interested topic, please feel free to open an [issue](https://github.com/changwn/scFEA/issues) or I can also merge your completed function into main branch
