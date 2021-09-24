@@ -14,6 +14,20 @@
 ### v1.1.2
 - Release mouse complete metabolic flux modules
 - Release [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial1.ipynb) using jupyter. The tutorial contains full installation manual, installation testing, two examples of scFEA for human and mouse model respectively.  It also includes R script for loading predicted flux result and a simple visialuzation demo.
+- add parameter `output_flux_file` and `output_balance_file` which allows user define custom output file names for predicted flux and balance files.
+
+### To be released soon 
+If you have an interested topic, please feel free to open an [issue](https://github.com/changwn/scFEA/issues) or I can also merge your completed function into main branch
+- [ ] release scFEA sampling and fitting function for large dataset. For dataset which contains more than 10,000 single cells, the general pipeline is too time comsuming to get the result without a GPU acceleration. Instead, user should use sampling function to extract subset of cells for each cell type to train a model. Then use fitting function to predict metabolic flux on all cells.
+- [ ] tutorial of how to use sampling function and fitting function on a large dataset
+- [ ] evaluation of predicted flusome (we will provide a few of examples to show how to evaluate the goodness of fitting based on the convergence curves and cross validations)
+- [ ] cell clustering function based on predicted metabolic flux and graph structure, cell clustering visualization
+- [ ] perturbation analysis to identify high impact metabolic genes
+- [ ] tutorial for embedding scFEA pipeline into a Seurat object and the Seurat pipeline for biological backgroud user who are familiar with Seurat 
+- [ ] spatial transcriptomic data analysis (spatial dependent metabolic and biochemical changes)
+- [ ] more visualization functions
+- [ ] integrate downstream analysis and visualization related function into scFEA R package
+- [ ] scFEA web server which enable online analysis and figure generation (will be released in December 2021)
 
 
 
