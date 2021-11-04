@@ -125,8 +125,9 @@ def main(args):
                 module_gene_all.append(moduleGene.iloc[i,j])
     module_gene_all = set(module_gene_all)
     data_gene_all = set(geneExpr.columns)
-    gene_overlap = data_gene_all.intersection(module_gene_all)
-    
+    gene_overlap = list(data_gene_all.intersection(module_gene_all))   # fix
+    gene_overlap.sort()
+
     cmMat = pd.read_csv(
             data_path + '/' + cm_file,
             sep=',',
