@@ -24,7 +24,7 @@ If you have an interested topic, please feel free to open an [issue](https://git
 - [ ] evaluation of predicted flusome (we will provide a few of examples to show how to evaluate the goodness of fitting based on the convergence curves and cross validations)
 - [ ] cell clustering function based on predicted metabolic flux and graph structure, cell clustering visualization
 - [ ] perturbation analysis to identify high impact metabolic genes
-- [ ] tutorial for embedding scFEA pipeline into a Seurat object and the Seurat pipeline for biological backgroud user who are familiar with Seurat 
+- [x] [tutorial](https://github.com/changwn/scFEA/blob/master/scFEA_tutorial2.ipynb) for embedding scFEA pipeline into a Seurat object and the Seurat pipeline for biological backgroud user who are familiar with Seurat 
 - [ ] spatial transcriptomic data analysis (spatial dependent metabolic and biochemical changes)
 - [ ] more visualization functions
 - [ ] integrate downstream analysis and visualization related function into scFEA R package
