@@ -439,6 +439,10 @@ def parse_arguments(parser):
     #                     help='User defined predicted flux file name.')
     # parser.add_argument('--output_balance_file', type=str, default='NULL', 
     #                     help='User defined predicted balance file name.')
+    
+    args = parser.parse_args()
+
+    return args
 
 
 if __name__ == "__main__":
