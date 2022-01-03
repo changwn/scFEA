@@ -386,8 +386,8 @@ def main(args):
                 #-------------------------------
                 df_grad_cell_all[i, :, :] = df_grad_cell_i
                 
-                if i == 0:  #debug
-                    break
+                # if i == 0:  #debug
+                #     break
                 
                 optimizer.step()
     print("Gradient calculation is done.")
