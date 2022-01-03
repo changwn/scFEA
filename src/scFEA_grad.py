@@ -294,7 +294,6 @@ def main(args):
     print("Start to calculate gradient...")
     # =============================================================================
     n_common = geneExpr.shape[1]
-    optimizer = torch.optim.Adam(net.parameters(), lr = LEARN_RATE)
     #    Dataloader
     dataloader_params = {'batch_size': 1,
                              'shuffle': False,
@@ -311,7 +310,7 @@ def main(args):
     #   training 
     #        for i, item in enumerate(train_loader): # 162
     df_grad_cell_all = np.zeros((n_cells, n_common, n_modules), dtype='f')
-    for i, (X, X_scale, m_scale) in enumerate(test_loader):
+    for i, (X, X_scale, m_scale) in tqdm(enumerate(test_loader)):
     #            X_batch, scale_batch , b_scale_batch= Variable(next(training_loader_iter)[0])  
     #            X_batch = Variable(item[0])
                 X_batch = Variable(X.float().to(device))
