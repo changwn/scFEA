@@ -34,7 +34,7 @@ from DatasetFlux import MyDataset
 
 # hyper parameters
 LEARN_RATE = 0.008  
-EPOCH = 100
+# EPOCH = 100
 LAMB_BA = 1
 LAMB_NG = 1 
 LAMB_CELL =  1
@@ -94,8 +94,12 @@ def main(args):
     sc_imputation = args.sc_imputation
     cName_file = args.cName_file
     gradName = args.output_gradient_file
+    EPOCH = args.train_epoch
     #fileName = args.output_flux_file
     #balanceName = args.output_balance_file
+    
+    if EPOCH <= 0:
+        raise NameError('EPOCH must greater than 1!')
 
     # choose cpu or gpu automatically
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -434,6 +438,8 @@ def parse_arguments(parser):
                         help='Whether perform imputation for SC dataset (recommend set to <True> for 10x data).')
     parser.add_argument('--output_gradient_file', type=str, default='NULL', 
                         help='User defined calculated gradient file name. (please use .pkl extension)')
+    parser.add_argument('--train_epoch', type=int, default=100, nargs='?',
+                        help='User defined EPOCH (training iteration).')
     # parser.add_argument('--output_flux_file', type=str, default='NULL', 
     #                     help='User defined predicted flux file name.')
     # parser.add_argument('--output_balance_file', type=str, default='NULL', 
