@@ -12,6 +12,7 @@ import warnings
 # tools
 import torch
 from torch.autograd import Variable
+from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -114,18 +115,13 @@ def main(args):
     BATCH_SIZE = geneExpr.shape[0]
 
     moduleGene = pd.read_csv(data_path + "/" + moduleGene_file, sep=",", index_col=0)
-    moduleLen = [
-        moduleGene.iloc[i, :].notna().sum() for i in range(moduleGene.shape[0])
-    ]
-    moduleLen = np.array(moduleLen)
+    moduleLen = moduleGene.notnull().sum(axis=1).to_numpy()
 
     # find existing gene
-    module_gene_all = []
-    for i in range(moduleGene.shape[0]):
-        for j in range(moduleGene.shape[1]):
-            if pd.isna(moduleGene.iloc[i, j]) == False:
-                module_gene_all.append(moduleGene.iloc[i, j])
+    module_gene_all = moduleGene.to_numpy().flatten()
+    module_gene_all = pd.Series(module_gene_all).dropna().to_numpy()
     module_gene_all = set(module_gene_all)
+
     data_gene_all = set(geneExpr.columns)
     gene_overlap = list(data_gene_all.intersection(module_gene_all))  # fix
     gene_overlap.sort()
@@ -152,19 +148,17 @@ def main(args):
     n_comps = cmMat.shape[0]
     geneExprDf = pd.DataFrame(columns=["Module_Gene"] + list(cell_names))
     for i in range(n_modules):
-        genes = moduleGene.iloc[i, :].values.astype(str)
-        genes = [g for g in genes if g != "nan"]
+        genes = moduleGene.iloc[i, :].dropna().to_list()
         if not genes:
             emptyNode.append(i)
             continue
         temp = geneExpr.copy()
-        temp.loc[:, [g for g in gene_names if g not in genes]] = 0
+        temp.loc[:, [g for g in gene_names if g not in genes]] = 0.0
         temp = temp.T
         temp["Module_Gene"] = ["%02d_%s" % (i, g) for g in gene_names]
-        geneExprDf = geneExprDf.append(temp, ignore_index=True, sort=False)
-    geneExprDf.index = geneExprDf["Module_Gene"]
-    geneExprDf.drop("Module_Gene", axis="columns", inplace=True)
-    X = geneExprDf.values.T
+        geneExprDf = pd.concat([geneExprDf, temp], ignore_index=True, sort=False)
+    geneExprDf.set_index("Module_Gene", inplace=True)
+    X = geneExprDf.values.T.astype(float)
     X = torch.FloatTensor(X).to(device)
 
     # prepare data for constraint of module variation based on gene
@@ -193,7 +187,7 @@ def main(args):
     }
 
     dataSet = MyDataset(X, geneExprScale, module_scale)
-    train_loader = torch.utils.data.DataLoader(dataset=dataSet, **dataloader_params)
+    train_loader = DataLoader(dataset=dataSet, **dataloader_params)
 
     # =============================================================================
 
@@ -281,7 +275,7 @@ def main(args):
     }
 
     dataSet = MyDataset(X, geneExprScale, module_scale)
-    test_loader = torch.utils.data.DataLoader(dataset=dataSet, **dataloader_params)
+    test_loader = DataLoader(dataset=dataSet, **dataloader_params)
 
     # testing
     fluxStatuTest = np.zeros((n_cells, n_modules), dtype="f")  # float32
@@ -296,8 +290,8 @@ def main(args):
             out_m_batch, out_c_batch = net(X_batch, n_modules, n_genes, n_comps, cmMat)
 
             # save data
-            fluxStatuTest[i, :] = out_m_batch.detach().numpy()
-            balanceStatus[i, :] = out_c_batch.detach().numpy()
+            fluxStatuTest[i, :] = out_m_batch.detach().cpu().numpy()
+            balanceStatus[i, :] = out_c_batch.detach().cpu().numpy()
 
     # save to file
     if fileName == "NULL":
