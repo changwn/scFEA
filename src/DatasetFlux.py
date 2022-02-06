@@ -13,7 +13,6 @@ class MyDataset(Dataset):
         self.info = info
         self.transform = transform
 
-
     def __getitem__(self, index):
         x = self.data[index]
         y = self.label[index]
@@ -22,8 +21,5 @@ class MyDataset(Dataset):
             x = self.transform(x)
         return x, y, z
 
-    
-
     def __len__(self):
         return len(self.data)
-

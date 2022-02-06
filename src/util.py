@@ -6,6 +6,7 @@
 
 import torch
 
+
 def pearsonr(x, y):
     """
     Mimics `scipy.stats.pearsonr`
@@ -19,10 +20,10 @@ def pearsonr(x, y):
     -------
     r_val : float
         pearsonr correlation coefficient between x and y
-    
+
     Scipy docs ref:
         https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.pearsonr.html
-    
+
     Scipy code ref:
         https://github.com/scipy/scipy/blob/v0.19.0/scipy/stats/stats.py#L2975-L3033
     Example:
