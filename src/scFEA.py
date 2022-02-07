@@ -21,7 +21,7 @@ from tqdm import tqdm
 
 # scFEA lib
 from ClassFlux import FLUX  # Flux class network
-from util import pearsonr
+from util import pearsonr, construct_path
 from DatasetFlux import MyDataset
 
 
@@ -74,21 +74,25 @@ def myLoss(
     return loss, loss1, loss2, loss3, loss4
 
 
-def main(args):
+def main(args: argparse.Namespace):
 
     # set arguments
-    data_path = args.data_dir
-    input_path = args.input_dir
-    res_dir = args.res_dir
-    test_file = args.test_file
-    moduleGene_file = args.moduleGene_file
-    cm_file = args.stoichiometry_matrix
+    data_path = construct_path(args.data_dir)
+    input_path = construct_path(args.input_dir)
+    res_dir = construct_path(args.res_dir)
+    test_file = input_path / args.test_file
+    moduleGene_file = data_path / args.moduleGene_file
+    cm_file = data_path / args.stoichiometry_matrix
     sc_imputation = args.sc_imputation
     cName_file = args.cName_file
     fileName = args.output_flux_file
     balanceName = args.output_balance_file
     EPOCH = args.train_epoch
 
+    # Sanity checks
+    for f in [test_file, moduleGene_file, cm_file]:
+        if not f.is_file():
+            raise FileNotFoundError(f"{f} is not found")
     if EPOCH <= 0:
         raise NameError("EPOCH must greater than 1!")
 
@@ -97,7 +101,7 @@ def main(args):
 
     # read data
     print("Starting load data...")
-    geneExpr = pd.read_csv(input_path + "/" + test_file, index_col=0)
+    geneExpr = pd.read_csv(test_file, index_col=0)
     geneExpr = geneExpr.T
     geneExpr = geneExpr * 1.0
     if sc_imputation == True:
@@ -114,7 +118,7 @@ def main(args):
 
     BATCH_SIZE = geneExpr.shape[0]
 
-    moduleGene = pd.read_csv(data_path + "/" + moduleGene_file, sep=",", index_col=0)
+    moduleGene = pd.read_csv(moduleGene_file, sep=",", index_col=0)
     moduleLen = moduleGene.notnull().sum(axis=1).to_numpy()
 
     # find existing gene
@@ -126,13 +130,13 @@ def main(args):
     gene_overlap = list(data_gene_all.intersection(module_gene_all))  # fix
     gene_overlap.sort()
 
-    cmMat = pd.read_csv(data_path + "/" + cm_file, sep=",", header=None)
+    cmMat = pd.read_csv(cm_file, sep=",", header=None)
     cmMat = cmMat.values
     cmMat = torch.FloatTensor(cmMat).to(device)
 
     if cName_file != "noCompoundName":
         print("Load compound name file, the balance output will have compound name.")
-        cName = pd.read_csv("./data/" + cName_file, sep=",", header=0)
+        cName = pd.read_csv(data_path / cName_file, sep=",", header=0)
         cName = cName.columns
     print("Load data done.")
 
@@ -202,7 +206,7 @@ def main(args):
     loss_v4 = []
     net.train()
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    lossName = "./output/lossValue_" + timestr + ".txt"
+    lossName = res_dir / f"lossValue_{timestr}.txt"
     file_loss = open(lossName, "a")
     for epoch in tqdm(range(EPOCH)):
         loss, loss1, loss2, loss3, loss4 = 0, 0, 0, 0, 0
@@ -258,13 +262,11 @@ def main(args):
     plt.plot(loss_v3)
     plt.plot(loss_v4)
     plt.legend(["total", "balance", "negative", "cellVar", "moduleVar"])
-    imgName = "./" + res_dir + "/loss_" + timestr + ".png"
+    imgName = res_dir / f"loss_{timestr}.png"
     plt.savefig(imgName)
-    timeName = "./" + res_dir + "/time_" + timestr + ".txt"
-    f = open(timeName, "a")
-    runTimeStr = str(end - start)
-    f.write(runTimeStr)
-    f.close()
+    with open(res_dir / f"time_{timestr}.txt", "a") as f:
+        runTimeStr = str(end - start)
+        f.write(runTimeStr)
 
     #    Dataloader
     dataloader_params = {
@@ -281,48 +283,26 @@ def main(args):
     fluxStatuTest = np.zeros((n_cells, n_modules), dtype="f")  # float32
     balanceStatus = np.zeros((n_cells, n_comps), dtype="f")
     net.eval()
-    for epoch in range(1):
-        loss, loss1, loss2 = 0, 0, 0
 
-        for i, (X, X_scale, _) in enumerate(test_loader):
+    loss, loss1, loss2 = 0, 0, 0
+    for i, (X, X_scale, _) in enumerate(test_loader):
 
-            X_batch = Variable(X.float().to(device))
-            out_m_batch, out_c_batch = net(X_batch, n_modules, n_genes, n_comps, cmMat)
+        X_batch = Variable(X.float().to(device))
+        out_m_batch, out_c_batch = net(X_batch, n_modules, n_genes, n_comps, cmMat)
 
-            # save data
-            fluxStatuTest[i, :] = out_m_batch.detach().cpu().numpy()
-            balanceStatus[i, :] = out_c_batch.detach().cpu().numpy()
+        # save data
+        fluxStatuTest[i, :] = out_m_batch.detach().cpu().numpy()
+        balanceStatus[i, :] = out_c_batch.detach().cpu().numpy()
 
     # save to file
-    if fileName == "NULL":
+    if not fileName:
         # user do not define file name of flux
-        fileName = (
-            "./"
-            + res_dir
-            + "/"
-            + test_file[-len(test_file) : -4]
-            + "_module"
-            + str(n_modules)
-            + "_cell"
-            + str(n_cells)
-            + "_batch"
-            + str(BATCH_SIZE)
-            + "_LR"
-            + str(LEARN_RATE)
-            + "_epoch"
-            + str(EPOCH)
-            + "_SCimpute_"
-            + str(sc_imputation)[0]
-            + "_lambBal"
-            + str(LAMB_BA)
-            + "_lambSca"
-            + str(LAMB_NG)
-            + "_lambCellCor"
-            + str(LAMB_CELL)
-            + "_lambModCor_1e-2"
-            + "_"
-            + timestr
-            + ".csv"
+        fileName = res_dir / (
+            f"{test_file.stem}_module{n_modules}_cell{n_cells}"
+            + f"_batch{BATCH_SIZE}_LR{LEARN_RATE}_epoch{EPOCH}"
+            + f"_SCimpute_{str(sc_imputation)[0]}"
+            + f"_lambBal{LAMB_BA}_lambSca{LAMB_NG}_lambCellCor{LAMB_CELL}"
+            + f"_lambModCor_{LAMB_MOD:.0e}_{timestr}.csv"
         )
     setF = pd.DataFrame(fluxStatuTest)
     setF.columns = moduleGene.index
@@ -334,9 +314,9 @@ def main(args):
     setB.index = setF.index
     if cName_file != "noCompoundName":
         setB.columns = cName
-    if balanceName == "NULL":
+    if not balanceName:
         # user do not define file name of balance
-        balanceName = "./output/balance_" + timestr + ".csv"
+        balanceName = res_dir / f"balance_{timestr}.csv"
     setB.to_csv(balanceName)
 
     print("scFEA job finished. Check result in the desired output folder.")
@@ -344,7 +324,7 @@ def main(args):
     return
 
 
-def parse_arguments(parser):
+def parse_arguments(parser: argparse.ArgumentParser):
 
     parser.add_argument(
         "--data_dir",
@@ -393,7 +373,7 @@ def parse_arguments(parser):
     )
     parser.add_argument(
         "--sc_imputation",
-        type=eval,
+        type=bool,
         default="False",
         choices=[True, False],
         help="Whether perform imputation for SC dataset (recommend set to <True> for 10x data).",
@@ -401,13 +381,13 @@ def parse_arguments(parser):
     parser.add_argument(
         "--output_flux_file",
         type=str,
-        default="NULL",
+        default=None,
         help="User defined predicted flux file name.",
     )
     parser.add_argument(
         "--output_balance_file",
         type=str,
-        default="NULL",
+        default=None,
         help="User defined predicted balance file name.",
     )
     parser.add_argument(

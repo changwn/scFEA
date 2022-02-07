@@ -5,6 +5,7 @@
 """
 
 import torch
+from pathlib import Path
 
 
 def pearsonr(x, y):
@@ -41,3 +42,22 @@ def pearsonr(x, y):
     r_den = torch.norm(xm, 2) * torch.norm(ym, 2)
     r_val = r_num / r_den
     return r_val
+
+
+def construct_path(file_path):
+    """
+    Checks if a path exists.
+
+    Arguments
+    ---------
+    file_path : str
+        path to check
+
+    Returns
+    -------
+    pathlib.Path to the input path.
+    """
+    path = Path(file_path).expanduser().resolve()
+    if not path.exists():
+        raise FileNotFoundError(f"{path} does not exist.")
+    return path
