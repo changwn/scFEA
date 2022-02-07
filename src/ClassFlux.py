@@ -10,7 +10,7 @@ import torch.nn as nn
 
 
 class FLUX(nn.Module):
-    def __init__(self, matrix, n_modules, f_in=50, f_out=1):
+    def __init__(self, n_modules, f_in=50, f_out=1):
         super(FLUX, self).__init__()
         # gene to flux
         self.inSize = f_in

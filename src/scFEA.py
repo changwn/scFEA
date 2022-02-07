@@ -179,7 +179,7 @@ def main(args: argparse.Namespace):
     # =============================================================================
     # NN
     torch.manual_seed(16)
-    net = FLUX(X, n_modules, f_in=n_genes, f_out=1).to(device)
+    net = FLUX(n_modules, f_in=n_genes, f_out=1).to(device)
     optimizer = torch.optim.Adam(net.parameters(), lr=LEARN_RATE)
 
     # Dataloader
