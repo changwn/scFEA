@@ -9,21 +9,21 @@ import argparse
 import time
 import warnings
 
+import magic
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 # tools
 import torch
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import magic
 from tqdm import tqdm
 
 # scFEA lib
 from ClassFlux import FLUX  # Flux class network
-from util import pearsonr, construct_path
 from DatasetFlux import MyDataset
-
+from util import construct_path, pearsonr
 
 # hyper parameters
 LEARN_RATE = 0.008
@@ -144,21 +144,20 @@ def main(args: argparse.Namespace):
     emptyNode = []
     # extract overlap gene
     geneExpr = geneExpr[gene_overlap]
-    gene_names = geneExpr.columns
+    gene_names = set(geneExpr.columns)
     cell_names = geneExpr.index.astype(str)
+    geneExpr = geneExpr.T
     n_modules = moduleGene.shape[0]
-    n_genes = len(gene_names)
-    n_cells = len(cell_names)
+    n_genes, n_cells = geneExpr.shape
     n_comps = cmMat.shape[0]
     geneExprDf = pd.DataFrame(columns=["Module_Gene"] + list(cell_names))
     for i in range(n_modules):
-        genes = moduleGene.iloc[i, :].dropna().to_list()
+        genes = set(moduleGene.iloc[i, :].dropna())
         if not genes:
             emptyNode.append(i)
             continue
         temp = geneExpr.copy()
-        temp.loc[:, [g for g in gene_names if g not in genes]] = 0.0
-        temp = temp.T
+        temp.loc[list(gene_names - genes), :] = 0.0
         temp["Module_Gene"] = ["%02d_%s" % (i, g) for g in gene_names]
         geneExprDf = pd.concat([geneExprDf, temp], ignore_index=True, sort=False)
     geneExprDf.set_index("Module_Gene", inplace=True)
@@ -168,9 +167,9 @@ def main(args: argparse.Namespace):
     # prepare data for constraint of module variation based on gene
     df = geneExprDf
     df.index = [i.split("_")[0] for i in df.index]
-    df.index = df.index.astype(
-        int
-    )  # mush change type to ensure correct order, T column name order change!
+
+    # mush change type to ensure correct order, T column name order change!
+    df.index = df.index.astype(int)
     # module_scale = df.groupby(df.index).sum(axis=1).T   # pandas version update
     module_scale = df.groupby(df.index).sum().T
     module_scale = torch.FloatTensor(module_scale.values / moduleLen)
@@ -306,7 +305,7 @@ def main(args: argparse.Namespace):
         )
     setF = pd.DataFrame(fluxStatuTest)
     setF.columns = moduleGene.index
-    setF.index = geneExpr.index.tolist()
+    setF.index = geneExpr.columns
     setF.to_csv(fileName)
 
     setB = pd.DataFrame(balanceStatus)
