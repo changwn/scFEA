@@ -27,15 +27,6 @@ class FLUX(nn.Module):
             ]
         )
 
-    def updateC(self, m, n_comps, cmMat):  # stoichiometric matrix
-
-        c = torch.zeros((m.shape[0], n_comps))
-        for i in range(c.shape[1]):
-            tmp = m * cmMat[i, :]
-            c[:, i] = torch.sum(tmp, dim=1)
-
-        return c
-
     def forward(self, x, n_modules, n_genes, n_comps, cmMat):
 
         for i in range(n_modules):
@@ -49,6 +40,6 @@ class FLUX(nn.Module):
             else:
                 m = torch.cat((m, subnet(x_block)), 1)
 
-        c = self.updateC(m, n_comps, cmMat)
+        c = m @ cmMat.T
 
         return m, c
