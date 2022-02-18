@@ -142,7 +142,7 @@ def main(args):
     if cName_file != 'noCompoundName':
         print("Load compound name file, the balance output will have compound name.")
         cName = pd.read_csv(
-                "./data/" + cName_file,
+                data_path + '/' + cName_file,
                 sep=',',
                 header=0)
         cName = cName.columns
@@ -335,7 +335,7 @@ def parse_arguments(parser):
 
     parser.add_argument('--data_dir', type=str, default='data', metavar='<data_directory>',
                         help='The data directory for scFEA model files.')
-    parser.add_argument('--input_dir', type=str, default='data', metavar='<input_directory>',
+    parser.add_argument('--input_dir', type=str, default='input', metavar='<input_directory>',
                         help='The data directory for single cell input data.')
     parser.add_argument('--res_dir', type=str, default='output', metavar='<data_directory>',
                         help='The data directory for result [output]. The output of scFEA includes two matrices, predicted metabolic flux and metabolites stress at single cell resolution.')
