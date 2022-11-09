@@ -165,9 +165,13 @@ N. Alghamdi, W. Chang, P. Dang, X. Lu, C. Wan, Z. Huang, J. Wang, M. Fishel, S. 
 
 ## Questions & Problems
 
-If you have any questions or problems, please feel free to open a new issue [here](https://github.com/changwn/scFEA/issues). We will fix the new issue ASAP.  You can also email the maintainers and authors below.
+If you have any questions or problems, please feel free to open a new issue [here](https://github.com/changwn/scFEA/issues). We will fix the new issue ASAP.  For code questions, please contact Wennan Chang.
 
 - [Wennan Chang](https://changwn.github.io/)
 (wnchang@iu.edu)
+
+For any other further questions or requests, please contact the Principle Investigator of BDRL lab.
+- [Prof. Chi Zhang](https://zcslab.github.io/)
+(czhang87@iu.edu)
 
 PhD candidate at [Biomedical Data Research Lab (BDRL)](https://zcslab.github.io/) , Indiana University School of Medicine
