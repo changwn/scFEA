@@ -9,6 +9,7 @@ import argparse
 import time
 import warnings
 
+
 # tools
 import torch
 from torch.autograd import Variable
@@ -33,8 +34,8 @@ LAMB_CELL =  1
 LAMB_MOD = 1e-2 
 
 
-def myLoss(m, c, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, geneScale = None, moduleScale = None):    
-    
+def myLoss(m, c, lamb1 = 0.2, lamb2= 0.2, lamb3 = 0.2, lamb4 = 0.2, geneScale = None, moduleScale = None):
+
     # balance constrain
     total1 = torch.pow(c, 2)
     total1 = torch.sum(total1, dim = 1) 
@@ -86,6 +87,7 @@ def main(args):
     fileName = args.output_flux_file
     balanceName = args.output_balance_file
     EPOCH = args.train_epoch
+    train_files_names = args.sample_name
     
     if EPOCH <= 0:
         raise NameError('EPOCH must greater than 1!')
@@ -184,8 +186,7 @@ def main(args):
     module_scale = torch.FloatTensor(module_scale.values/ moduleLen) 
     print("Process data done.")
 
-    
-    
+       
 # =============================================================================
     #NN
     torch.manual_seed(16)
@@ -218,7 +219,11 @@ def main(args):
     loss_v4 = []
     net.train()
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    lossName = "./output/lossValue_" + timestr + ".txt"
+    if train_files_names == 'NULL':
+        # user do not define files names
+        lossName = "./output/lossValue_" + timestr + ".txt"    
+    else:
+        lossName = "./output/lossValue_" + train_files_names + "_" + timestr + ".txt"
     file_loss = open(lossName, "a")
     for epoch in tqdm(range(EPOCH)):
         loss, loss1, loss2, loss3, loss4 = 0,0,0,0,0
@@ -263,10 +268,18 @@ def main(args):
     plt.plot(loss_v2)
     plt.plot(loss_v3)
     plt.plot(loss_v4)
+    #plt.yscale("log")
     plt.legend(['total', 'balance', 'negative', 'cellVar', 'moduleVar']);
-    imgName = './' + res_dir + '/loss_' + timestr + ".png"
+    if train_files_names == 'NULL':
+        # user do not define files names
+        imgName = './' + res_dir + '/loss_' + timestr + ".png"      
+    imgName = './' + res_dir + '/loss_' + train_files_names + "_" + timestr + ".png"
     plt.savefig(imgName)
-    timeName =  './' + res_dir + '/time_' + timestr + ".txt"
+    if train_files_names == 'NULL':
+        # user do not define files names
+        timeName =  './' + res_dir + '/time_' + timestr + ".txt"     
+    else:
+        timeName =  './' + res_dir + '/time_' + train_files_names + "_" + timestr + ".txt"
     f = open(timeName, "a")
     runTimeStr = str(end - start)
     f.write(runTimeStr)
@@ -354,7 +367,9 @@ def parse_arguments(parser):
     parser.add_argument('--output_balance_file', type=str, default='NULL', 
                         help='User defined predicted balance file name.')
     parser.add_argument('--train_epoch', type=int, default=100, nargs='?',
-                        help='User defined EPOCH (training iteration).')
+                        help='User defined EPOCH (training iteration).'),    
+    parser.add_argument('--sample_name', type=str, default='NULL',
+                        help='User defined sample to appear in names of training related files names.')
     
     
 
